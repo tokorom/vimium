@@ -1084,6 +1084,35 @@ HistoryCache.binarySearch = function(targetElement, array, compareFunction) {
     return middle;
 };
 
+class KeywordCompleter {
+  filter({ queryTerms, query }, onComplete) {
+    if (queryTerms.length === 0)
+      return onComplete([]);
+    else
+      this.performSearch(queryTerms, onComplete);
+  }
+
+  performSearch(queryTerms, onComplete) {
+    const keyword = queryTerms[0];
+
+    SearchEngines.use(engines => {
+      if (keyword && engines[keyword])
+        return onComplete([
+          new Suggestion({
+            queryTerms,
+            type: "keyword",
+            url: engines[keyword].searchUrl,
+            relevancy: 1000.0
+          })
+          ]
+        );
+      else
+        return onComplete([]);
+    });
+
+  }
+}
+
 Object.assign(global, {
   Suggestion,
   BookmarkCompleter,
@@ -1092,6 +1121,7 @@ Object.assign(global, {
   DomainCompleter,
   TabCompleter,
   SearchEngineCompleter,
+  KeywordCompleter,
   HistoryCache,
   RankingUtils,
   RegexpCache

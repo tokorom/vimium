@@ -41,7 +41,8 @@ const completionSources = {
   history: new HistoryCompleter,
   domains: new DomainCompleter,
   tabs: new TabCompleter,
-  searchEngines: new SearchEngineCompleter
+  searchEngines: new SearchEngineCompleter,
+  keywords: new KeywordCompleter,
 };
 
 const completers = {
@@ -50,7 +51,8 @@ const completers = {
     completionSources.history,
     completionSources.domains,
     completionSources.tabs,
-    completionSources.searchEngines
+    completionSources.searchEngines,
+    completionSources.keywords
     ]),
   bookmarks: new MultiCompleter([completionSources.bookmarks]),
   tabs: new MultiCompleter([completionSources.tabs])
